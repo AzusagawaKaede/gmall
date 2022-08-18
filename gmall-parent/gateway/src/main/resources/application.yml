@@ -1,0 +1,38 @@
+server:
+  port: 80
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.200.128:8848
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: service-product
+          uri: lb://service-product
+          predicates:
+            - Path=/*/product/**  # 路径匹配，Path首字母大写，使用 等号
+        - id: service-user
+          uri: lb://service-user
+          predicates:
+            - Path=/*/user/**
+        - id: service-cart
+          uri: lb://service-cart
+          predicates:
+            - Path=/*/cart/**
+        - id: service-order
+          uri: lb://service-order
+          predicates:
+            - Path=/*/order/**
+        - id: service-activity
+          uri: lb://service-activity
+          predicates:
+            - Path=/*/seckill/**
+  redis:
+    host: 192.168.200.128
+    port: 6379
